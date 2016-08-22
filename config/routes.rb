@@ -1,3 +1,17 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :items, only: [:index] do
+    resources :click_tracks, only: [:index]
+  end
+  
+  namespace :api do
+    resources :items, only: [] do
+      resources :click_tracks, only: [:create] do
+        collection do
+          get 'by_day'
+        end
+      end
+    end
+  end
+    
+  root "items#index"
 end
